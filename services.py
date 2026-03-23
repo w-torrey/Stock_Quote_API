@@ -2,16 +2,7 @@ import client
 
 
 def quote_logic(ticker):
-    if not isinstance(ticker, str):
-        raise ValueError("Please return string")
-    if not ticker:
-        raise ValueError("Please return a ticker")
-    if not 1 <= len(ticker) <= 5:
-        raise ValueError("Please return a valid ticker less than 5 characters")
-    if not ticker.isalpha():
-        raise ValueError("Please return a valid ticker with only letters")
-    if not ticker.isupper():
-        raise ValueError("Please return a valid ticker with only uppercase letters")
+    ticker_validation(ticker)
     raw = client.fetch_quote(ticker)
     quote = raw.get("Global Quote", {})
     return {
@@ -23,20 +14,8 @@ def quote_logic(ticker):
 
 
 def history_logic(ticker, days=30):
-    if not isinstance(ticker, str):
-        raise ValueError("Please return string")
-    if not ticker:
-        raise ValueError("Please return a ticker")
-    if not 1 <= len(ticker) <= 5:
-        raise ValueError("Please return a valid ticker less than 5 characters")
-    if not ticker.isalpha():
-        raise ValueError("Please return a valid ticker with only letters")
-    if not ticker.isupper():
-        raise ValueError("Please return a valid ticker with only uppercase letters")
-    if not isinstance(days, int):
-        raise ValueError("Please return an integer for range")
-    if not 1 <= days <= 100:
-        raise ValueError("Please return a valid range between 1 and 100")
+    ticker_validation(ticker)
+    day_validation(days)
     raw = client.fetch_history(ticker)
     history = raw.get("Time Series (Daily)", {})
     sorted_dates = sorted(history.keys(), reverse=True)
@@ -55,3 +34,23 @@ def history_logic(ticker, days=30):
             }
         )
     return result
+
+def ticker_validation(ticker):
+    if not isinstance(ticker, str):
+        raise ValueError("Please return string")
+    if not ticker:
+        raise ValueError("Please return a ticker")
+    if not 1 <= len(ticker) <= 5:
+        raise ValueError("Please return a valid ticker less than 5 characters")
+    if not ticker.isalpha():
+        raise ValueError("Please return a valid ticker with only letters")
+    if not ticker.isupper():
+        raise ValueError("Please return a valid ticker with only uppercase letters")
+    return ticker
+    
+def day_validation(days):
+    if not isinstance(days, int):
+        raise ValueError("Please return an integer for range")
+    if not 1 <= days <= 100:
+        raise ValueError("Please return a valid range between 1 and 100")
+    return days
