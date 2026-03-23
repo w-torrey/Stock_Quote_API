@@ -10,10 +10,17 @@ def root():
 
 
 @app.get("/quote/{ticker}")
-def get_quote(ticker):
-    return services.quote_logic(ticker)
+def get_quote(ticker: str):
+    try:
+        return services.quote_logic(ticker)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
 
 
 @app.get("/history/{ticker}")
-def get_history(ticker: str, range: int = Query(30, ge=1, le=100)):
-    return services.history_logic(ticker, range)
+def get_history(ticker: str, limit: int = Query(30, ge=1, le=100)):
+    try:
+        return services.history_logic(ticker, limit)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    

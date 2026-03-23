@@ -44,9 +44,7 @@ def ticker_validation(ticker):
         raise ValueError("Please return a valid ticker less than 5 characters")
     if not ticker.isalpha():
         raise ValueError("Please return a valid ticker with only letters")
-    if not ticker.isupper():
-        raise ValueError("Please return a valid ticker with only uppercase letters")
-    return ticker
+    return ticker.upper()
     
 def day_validation(days):
     if not isinstance(days, int):
