@@ -1,8 +1,12 @@
-import client
+import client, time
+from datetime import datetime, timezone
+
+
+start_time = time.time()
 
 
 def quote_logic(ticker):
-    ticker_validation(ticker)
+    ticker = ticker_validation(ticker)
     raw = client.fetch_quote(ticker)
     quote = raw.get("Global Quote", {})
     return {
@@ -14,7 +18,7 @@ def quote_logic(ticker):
 
 
 def history_logic(ticker, days=30):
-    ticker_validation(ticker)
+    ticker = ticker_validation(ticker)
     day_validation(days)
     raw = client.fetch_history(ticker)
     history = raw.get("Time Series (Daily)", {})
@@ -34,6 +38,15 @@ def history_logic(ticker, days=30):
             }
         )
     return result
+
+def health_logic():
+    now = time.time()
+    uptime = now - start_time
+    return {
+        'status': 'ok',
+        'uptime': uptime,
+        'timestamp': datetime.now(timezone.utc).isoformat()
+        }
 
 def ticker_validation(ticker):
     if not isinstance(ticker, str):
