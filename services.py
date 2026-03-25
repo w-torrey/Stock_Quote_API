@@ -19,7 +19,7 @@ def quote_logic(ticker):
 
 def history_logic(ticker, days=30):
     ticker = ticker_validation(ticker)
-    day_validation(days)
+    days = day_validation(days)
     raw = client.fetch_history(ticker)
     history = raw.get("Time Series (Daily)", {})
     sorted_dates = sorted(history.keys(), reverse=True)
