@@ -1,5 +1,5 @@
 fastapi
 python-dotenv
-uvicron
+uvicorn
 requests
 os
