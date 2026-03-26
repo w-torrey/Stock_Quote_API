@@ -1,7 +1,6 @@
 import client, time
 from datetime import datetime, timezone
 
-
 start_time = time.time()
 
 
@@ -39,14 +38,16 @@ def history_logic(ticker, days=30):
         )
     return result
 
+
 def health_logic():
     now = time.time()
     uptime = now - start_time
     return {
-        'status': 'ok',
-        'uptime': uptime,
-        'timestamp': datetime.now(timezone.utc).isoformat()
-        }
+        "status": "ok",
+        "uptime": uptime,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
 
 def ticker_validation(ticker):
     if not isinstance(ticker, str):
@@ -58,7 +59,8 @@ def ticker_validation(ticker):
     if not ticker.isalpha():
         raise ValueError("Please return a valid ticker with only letters")
     return ticker.upper()
-    
+
+
 def day_validation(days):
     if not isinstance(days, int):
         raise ValueError("Please return an integer for range")
